@@ -1,18 +1,25 @@
-import serial
-import time
+#include <Arduino.h>
 
-ser = serial.Serial('/dev/cu.usbmodem14101', 9600)
-ser.timeout = 1
+String InBytes;
 
-while True:
-    i = input("Enter message: ").strip()
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
+} 
 
-    if i == "quit":
-        print("Quiting")
-        break
+void loop() {
+  if (Serial.available() > 0) {
+    InBytes = Serial.readStringUntil("\n");
 
-    ser.write(i.encode())
-    time.sleep(0.5)
-    print(ser.readline().decode('ascii'))
-
-ser.close()
+    if (InBytes == "on") {
+      digitalWrite(LED_BUILTIN, HIGH);
+      Serial.write("LED ON");
+    } else if (InBytes == "off") {
+      digitalWrite(LED_BUILTIN, LOW);
+      Serial.write("LED OFF");
+    } else {
+      Serial.write("Invalid");
+      Serial.println(InBytes);
+    }
+  }
+}
