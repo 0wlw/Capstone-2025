@@ -3,7 +3,7 @@ import time
 import twophase.solver  as tpsv
 
 
-ser = serial.Serial('/dev/cu.usbmodem14101', 9600)
+ser = serial.Serial('COM3', 9600)
 ser.timeout = 1
 
 #while True:
@@ -35,8 +35,9 @@ for letter in color_string:
         cubestring += "B"
 
 print(cubestring)
-print(tpsv.solve(cubestring, 19, 2))
-solution = tpsv.solve(cubestring, 19, 2)
+solution = tpsv.solve(cubestring, 19, 5)
+print(solution)
+print("Solving...")
 print(type(solution))
 
 send_str = ""
@@ -84,5 +85,4 @@ for move in solution.split():
     time.sleep(3)
     print(ser.readline().decode('ascii'))
 
-#BUGS: THE NUMBER OF MOVES SHOWN IN SOLUTION STR NEEDS TO BE REMOVED
-
+### With example_scramble, W: RYRYWBGOW, R: ORGORWORW, G: WGBWGBWYB, Y: BRYWYGOWO, O: BORYORYOR, B: YBYGBGGBG
